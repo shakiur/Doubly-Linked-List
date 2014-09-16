@@ -6,13 +6,15 @@ using namespace std;
 
 string buildTabs(int n);
 void buildList(Node *& head);
-void traverseList(Node *& head, int num_of_tabs);
-void traverseFlatList(Node *& head);
+
+void traverseList(Node * head, int num_of_tabs);
+void traverseFlatList(Node * head);
 
 void appendEndOfLevel(Node * head_level, Node * child_node);
-void flattenList(Node *& head);
+void flattenList(Node * head);
 
 int main() {
+    
     Node * head;
     cout << "============== ORIGINAL LIST ==============" << endl;
     buildList(head);
@@ -22,39 +24,34 @@ int main() {
     flattenList(head);
     traverseFlatList(head);
 
-    
 }
 
+void traverseList(Node * head, int num_of_tabs) {
 
-void traverseList(Node *& head, int num_of_tabs) {
-    Node * traverse_elem = new Node;
-    traverse_elem = head;
     string tabs = buildTabs(num_of_tabs);
 
-    while(traverse_elem) {
+    while(head) {
         cout << tabs 
              << "Elem Data: " 
-             << traverse_elem->data 
+             << head->data 
              << endl;
 
-        if(traverse_elem->child)
-            traverseList(traverse_elem->child,++num_of_tabs);
+        if(head->child)
+            traverseList(head->child,++num_of_tabs);
 
-        traverse_elem = traverse_elem->next;
+        head = head->next;
     }
 
 }
 
-void traverseFlatList(Node *& head) {
-    Node * traverse_elem = new Node;
-    traverse_elem = head;
+void traverseFlatList(Node * head) {
 
-    while(traverse_elem) {
+    while(head) {
         cout << "Elem Data: " 
-             << traverse_elem->data 
+             << head->data 
              << endl;
 
-        traverse_elem = traverse_elem->next;
+        head = head->next;
     }
 }
 
@@ -165,34 +162,29 @@ void buildList(Node *& head) {
 
 void appendEndOfLevel(Node * head_level, Node * child_node) {
 
-    //cout << "\tHead Data: " << head_level->data << endl;
-    //cout << "\tChild Data: " << child_node->data << endl;
-
     while(head_level) {
+
         if(!head_level->next) {
-            //cout << "Last Elem in Head List: " << head_level->data << endl;
             head_level->next = child_node;
             break;
         }
 
         head_level = head_level->next;
+
     }
     
 }
 
-void flattenList(Node *& head) {
-    Node * head_elems = head;
-    Node * child_elems;
+void flattenList(Node * head) {
 
-    while(head_elems) {
-        //cout << "Data: " << head_elems->data << endl;
+    while(head) {
 
-        if(head_elems->child) {
-            //cout << "\tCHILD FOUND" << endl;
-            appendEndOfLevel(head_elems, head_elems->child);
+        if(head->child) {
+            appendEndOfLevel(head, head->child);
         }
 
-        head_elems = head_elems->next;
+        head = head->next;
+
     }
 
 }
