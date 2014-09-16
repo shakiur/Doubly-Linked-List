@@ -4,13 +4,23 @@
 
 using namespace std;
 
+// Builds # of tabs to indicate level on linked list
 string buildTabs(int n);
+
+// Builds actual linked list from example
 void buildList(Node *& head);
 
+// Traverses full list to go through each child
 void traverseList(Node * head, int num_of_tabs);
+
+// Traverses list without going through children
 void traverseFlatList(Node * head);
 
+// When child node is found, append to end of higher level
 void appendEndOfLevel(Node * head_level, Node * child_node);
+
+// Take individual children from nodes and connect them
+// to make 1 singular list
 void flattenList(Node * head);
 
 int main() {
@@ -63,6 +73,36 @@ string buildTabs(int n){
     }
 
     return tabs;
+}
+
+
+void appendEndOfLevel(Node * head_level, Node * child_node) {
+
+    while(head_level) {
+
+        if(!head_level->next) {
+            head_level->next = child_node;
+            break;
+        }
+
+        head_level = head_level->next;
+
+    }
+    
+}
+
+void flattenList(Node * head) {
+
+    while(head) {
+
+        if(head->child) {
+            appendEndOfLevel(head, head->child);
+        }
+
+        head = head->next;
+
+    }
+
 }
 
 void buildList(Node *& head) {
@@ -157,34 +197,5 @@ void buildList(Node *& head) {
     n17->child = NULL;
 
     head = n1;
-
-}
-
-void appendEndOfLevel(Node * head_level, Node * child_node) {
-
-    while(head_level) {
-
-        if(!head_level->next) {
-            head_level->next = child_node;
-            break;
-        }
-
-        head_level = head_level->next;
-
-    }
-    
-}
-
-void flattenList(Node * head) {
-
-    while(head) {
-
-        if(head->child) {
-            appendEndOfLevel(head, head->child);
-        }
-
-        head = head->next;
-
-    }
 
 }
